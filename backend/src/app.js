@@ -7,7 +7,6 @@ import authControll from './authControll.js';
 import data from './data.js';
 
 const app = express();
-const port = 3000;
 
 app.use(express.json())
 
@@ -25,6 +24,4 @@ app.get('/data', (req, res) => {
     } else sendError(res)
 })
 
-app.listen(port, () => {
-    console.log(`App listens on ${port}`)
-})
+export default app
