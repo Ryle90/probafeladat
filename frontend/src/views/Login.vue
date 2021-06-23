@@ -35,6 +35,9 @@
         </div>
       </div>
       <button class="button is-link">Login</button>
+        <div>
+          <small>{{responseError}}</small>
+        </div>
     </form>
   </div>
 </template>
@@ -53,6 +56,8 @@ export default {
         user: "",
         password: "",
       },
+
+      responseError: ""
     };
   },
 
@@ -104,14 +109,26 @@ export default {
 
             fetch('http://localhost:3000/login', {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(resData => console.log(resData))
+            .then(response => {
+              if (response.status === 401) {
+                this.responseError = 'An error occured, please try it again.'
+                setTimeout(() => {
+                  this.responseError = ''
+                }, 2000)
+              } else {
+                response.json()
+                .then(resData => {
+                  const token = resData.token;
+                  window.localStorage.setItem('token', token)
+                  this.$router.push('/data')
+                })
+              }
+            })
         }
     }
   },
