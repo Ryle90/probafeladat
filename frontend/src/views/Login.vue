@@ -3,19 +3,19 @@
     <form class="container" @submit="handleSubmit" novalidate>
       <h3>Login</h3>
       <div class="field">
-        <label class="label" for="email">Email</label>
+        <label class="label" for="email">User</label>
         <div class="control">
           <input
             class="input"
-            v-bind:class="{'is-danger': errorMessages.email !== ''}"
+            v-bind:class="{'is-danger': errorMessages.user !== ''}"
             type="text"
-            v-model="email"
-            id="email"
-            name="email"
+            v-model="user"
+            id="user"
+            name="user"
             @blur="handleValidation($event.target.name)"
             @focus="handleFocus($event)"
           />
-          <small>{{errorMessages.email}}</small>
+          <small>{{errorMessages.user}}</small>
         </div>
       </div>
       <div class="field">
@@ -40,18 +40,17 @@
 </template>
 
 <script>
-import validateEmail from "../components/emailValidator.js";
 
 export default {
   name: "login",
 
   data() {
     return {
-      email: "",
+      user: "",
       password: "",
 
       errorMessages: {
-        email: "",
+        user: "",
         password: "",
       },
     };
@@ -67,11 +66,6 @@ export default {
       if (value.length === 0) {
         isValid = false;
         errorMessage = `Please type your ${name}`;
-      } else if (name === "email") {
-        if (!validateEmail(value)) {
-          isValid = false;
-          errorMessage = "Please type a valid email address";
-        }
       }
 
       if (!isValid) {
@@ -103,7 +97,21 @@ export default {
         })
 
         if (isValidForm) {
-            console.log('valid')
+            const data = {
+                user: this.user,
+                password: this.password
+            }
+
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(resData => console.log(resData))
         }
     }
   },
