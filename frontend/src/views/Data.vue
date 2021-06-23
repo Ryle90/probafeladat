@@ -9,8 +9,8 @@
       </thead>
       <tbody>
         <tr v-for="dataForTable in datasForTable" :key="dataForTable.id">
-          <td>{{dataForTable.id}}</td>
-          <td>{{dataForTable.text}}</td>
+          <td>{{ dataForTable.id }}</td>
+          <td>{{ dataForTable.text }}</td>
         </tr>
       </tbody>
     </table>
@@ -19,36 +19,36 @@
 
 <script>
 export default {
-  name: 'data',
+  name: "data",
 
-  data () {
+  data() {
     return {
-      datasForTable: null
-    }
+      datasForTable: null,
+    };
   },
 
-  created () {
-    const token = window.localStorage.getItem('token');
-    
-    fetch('http://localhost:3000/data', {
-      method: 'GET',
+  created() {
+    const token = window.localStorage.getItem("token");
+
+    fetch("http://localhost:3000/data", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': token
-      }
+        "Content-Type": "application/json",
+        "x-api-key": token,
+      },
     })
-    .then(response => response.json())
-    .then(data => {
-      this.datasForTable = JSON.parse(data)
-    })
-  }
-}
+      .then((response) => response.json())
+      .then((data) => {
+        this.datasForTable = JSON.parse(data);
+      });
+  },
+};
 </script>
 
 <style scoped>
-  table {
-    margin-top: 20px;
-    margin-left: 15px;
-    min-width: 50%
-  }
+table {
+  margin-top: 20px;
+  margin-left: 15px;
+  min-width: 50%;
+}
 </style>

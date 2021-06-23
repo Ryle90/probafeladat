@@ -7,7 +7,7 @@
         <div class="control">
           <input
             class="input"
-            v-bind:class="{'is-danger': errorMessages.user !== ''}"
+            v-bind:class="{ 'is-danger': errorMessages.user !== '' }"
             type="text"
             v-model="user"
             id="user"
@@ -15,7 +15,7 @@
             @blur="handleValidation($event.target.name)"
             @focus="handleFocus($event)"
           />
-          <small>{{errorMessages.user}}</small>
+          <small>{{ errorMessages.user }}</small>
         </div>
       </div>
       <div class="field">
@@ -23,7 +23,7 @@
         <div class="control">
           <input
             class="input"
-            v-bind:class="{'is-danger': errorMessages.password !== ''}"
+            v-bind:class="{ 'is-danger': errorMessages.password !== '' }"
             type="password"
             v-model="password"
             name="password"
@@ -31,19 +31,18 @@
             @blur="handleValidation($event.target.name)"
             @focus="handleFocus($event)"
           />
-          <small>{{errorMessages.password}}</small>
+          <small>{{ errorMessages.password }}</small>
         </div>
       </div>
       <button class="button is-link">Login</button>
-        <div>
-          <small>{{responseError}}</small>
-        </div>
+      <div>
+        <small>{{ responseError }}</small>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "login",
 
@@ -57,7 +56,7 @@ export default {
         password: "",
       },
 
-      responseError: ""
+      responseError: "",
     };
   },
 
@@ -80,57 +79,55 @@ export default {
         };
       }
 
-      return isValid
+      return isValid;
     },
 
     handleFocus(event) {
-        this.errorMessages = {
-            ...this.errorMessages,
-            [event.target.name]: ''
-        }
+      this.errorMessages = {
+        ...this.errorMessages,
+        [event.target.name]: "",
+      };
     },
 
-    handleSubmit (event) {
-        event.preventDefault();
+    handleSubmit(event) {
+      event.preventDefault();
 
-        let isValidForm = true;
+      let isValidForm = true;
 
-        Object.keys(this.errorMessages).forEach((name) => {
-            if (this.handleValidation(name) == false) {
-                isValidForm = false
-            }
-        })
-
-        if (isValidForm) {
-            const data = {
-                user: this.user,
-                password: this.password
-            }
-
-            fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-              if (response.status === 401) {
-                this.responseError = 'An error occured, please try it again.'
-                setTimeout(() => {
-                  this.responseError = ''
-                }, 2000)
-              } else {
-                response.json()
-                .then(resData => {
-                  const token = resData.token;
-                  window.localStorage.setItem('token', token)
-                  this.$router.push('/data')
-                })
-              }
-            })
+      Object.keys(this.errorMessages).forEach((name) => {
+        if (this.handleValidation(name) == false) {
+          isValidForm = false;
         }
-    }
+      });
+
+      if (isValidForm) {
+        const data = {
+          user: this.user,
+          password: this.password,
+        };
+
+        fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          if (response.status === 401) {
+            this.responseError = "An error occured, please try it again.";
+            setTimeout(() => {
+              this.responseError = "";
+            }, 2000);
+          } else {
+            response.json().then((resData) => {
+              const token = resData.token;
+              window.localStorage.setItem("token", token);
+              this.$router.push("/data");
+            });
+          }
+        });
+      }
+    },
   },
 };
 </script>
@@ -149,6 +146,6 @@ h3 {
 }
 
 small {
-    color: red
+  color: red;
 }
 </style>
