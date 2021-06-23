@@ -14,7 +14,6 @@ app.use(cors())
 
 app.post('/login', (req, res) => {
     const data = req.body;
-    console.log(data)
     if (loginControll(data)) {
         res.json({token: 'aasdsa122434321k2o3lji2j3'})
     } else sendError(res)
