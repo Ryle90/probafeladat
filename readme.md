@@ -1,5 +1,7 @@
 # Próbafeladat
 
+Megjegyzés: A kód futtatásához a node 14+ verziója szükséges.
+
 ### Indítás:
 1. Nyiss egy terminált a backend mappában 
 2. Használd az `npm install` parancsot a függőségek telepítéséhez
